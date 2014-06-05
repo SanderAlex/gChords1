@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chords</title>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <meta name="msapplication-tap-highlight" content="no" />
+
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.2.css" />
+    <link rel="stylesheet" href="css/jquery.mobile.icons.min.css" />
+
+    <script src="js/jqm.js"></script>
+    <script src="js/jquery.mobile-1.4.2.js"></script>
+
+    <script src="cordova.js"></script>
+    <script src="js/chords.js"></script>
+    <script src="js/index.js"></script>
+    <script src="js/script.js"></script>
+
+</head>
+    <body>
+        <div data-role="page" data-theme="b" id="mainPage">
+            <div id="select">
+                <div class="selector">
+                    <select data-theme="b" id="chordSelector" data-native-menu="false">
+                        <option>Chord</option>
+                        <option value="C">C</option>
+                        <option value="Cd">C#</option>
+                        <option value="D">D</option>
+                        <option value="Dd">D#</option>
+                        <option value="E">E</option>
+                        <option value="F">F</option>
+                        <option value="Fd">F#</option>
+                        <option value="G">G</option>
+                        <option value="Gd">G#</option>
+                        <option value="A">A</option>
+                        <option value="Ad">A#</option>
+                        <option value="B">B</option>
+                    </select>
+                </div>
+                <div class="selector">
+                    <select id="subChordSelector" data-native-menu="false">
+                        <option value="maj">M</option>
+                        <option value="min">m</option>
+                        <option value="aug">aug</option>
+                    </select>
+                </div>
+                <a href="#variants" data-transition="pop" data-role="button" data-icon="grid" data-iconshadow="true" data-iconpos="notext" class="ui-disabled" id="allVariants"></a>  
+            </div>
+
+            <div id="chordDiv">
+                <canvas id="bridgeCanvas">
+                </canvas>
+                <canvas id="chordCanvas">
+                </canvas>
+            </div>
+            
+            <div data-role="controlgroup" data-type="horizontal" id="mainButtons">
+                <a href="#" data-role="button" data-icon="carat-l" data-iconshadow="true" data-iconpos="notext" class="ui-disabled botBut" id="prevButton"></a>
+                <a href="#" data-role="button" data-icon="play" data-iconshadow="true" data-iconpos="notext" data-inline="true" class="ui-disabled botBut" id="playButton"></a>
+                <a href="#" data-role="button" data-icon="carat-r" data-iconshadow="true" data-iconpos="notext" class="ui-disabled botBut" id="nextButton"></a>
+            </div>
+        </div>
+
+        <div data-role="page" data-theme="b" id="variants">
+            <a href="#mainPage" data-transition="pop" data-icon="arrow-l" data-role="button">BACK</a>
+            <div id="allVars"></div>
+        </div>
+    </body>
+</html>

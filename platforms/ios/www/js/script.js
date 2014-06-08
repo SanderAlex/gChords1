@@ -1,10 +1,8 @@
 $(document).ready(function() {
 
-    /*
     $("#mainPage").bind('touchmove', function(e) {
         e.preventDefault();
     });
-    */
 
 	var canvas = document.getElementById('chordCanvas');
     var context = canvas.getContext('2d');
@@ -15,6 +13,8 @@ $(document).ready(function() {
     neck.src = "img/neck.png";
 
     var stringSounds = new Array;
+
+    var myScroll;
 
     $("#chordSelector").change(pickChord);
     $("#subChordSelector").change(pickChord);
@@ -28,6 +28,7 @@ $(document).ready(function() {
     $("#nextButton").tap(nextVar);
     $("#allVariants").tap(varShow);
     $("#playButton").tap(playChord);
+    $("#cf").change(pickChord);
 
     resizeCanvas();
 
@@ -45,13 +46,13 @@ $(document).ready(function() {
         unitX = canvas.width/7;
         unitY = window.innerHeight/7;
         
-        $("#chordDiv").height(unitY*13);
         bCanvas.height = unitY;
-        canvas.height = $("#chordDiv").height();
+        canvas.height = unitY*12;
         bCanvas.width = $("#chordDiv").width();
         
-        $("#headerMenu").height($("#topMenu").height() + bCanvas.height);
-        $("#chordDiv").trigger( "updatelayout" );  
+        $("#headerMenu").height($("#dateBox").height() + bCanvas.height);
+        $("#chordDiv").height(window.innerHeight - $("#headerMenu").height() - $("#footerMenu").height());
+        $("#chordDiv").trigger("updatelayout");  
         context.font = unitY*0.3 + "px Arial";
         context.textAlign = "center";
         bContext.font = unitY*0.3 + "px Arial";
@@ -63,11 +64,15 @@ $(document).ready(function() {
         neck.onload = function() {
             drawNeck();
         }
+        myScroll = new iScroll('chordDiv', { hScrollbar: false, vScrollbar: false });
     }
 
     function pickChord() {
         var noteInd;
-        chord = $("select#chordSelector").val() + $("select#subChordSelector").val();
+        var chordValue = ($("#cf").val()).split(",");
+        //alert(chordsIndexes[0][chordValue[0]].replace("#", "d") + chordsIndexes[1][chordValue[1]]);
+        chord = chordsIndexes[0][chordValue[0]].replace("#", "d") + chordsIndexes[1][chordValue[1]];
+        $("#cf").val(chordsIndexes[0][chordValue[0]] + chordsIndexes[1][chordValue[1]].replace("M", ""));
 
         chordVar = chords[chord];
         currentChordIndex = 0;
@@ -141,6 +146,12 @@ $(document).ready(function() {
         chordGrid = currentChord;
         buildChord();
         drawFinger(chordGrid);
+        var scroll = searchMin(chordGrid);
+        console.log(scroll[0]);
+        if(scroll[0])
+            myScroll.scrollTo(0, -((scroll[0]*unitY) - unitY*1.25), 400);
+        else
+            myScroll.scrollTo(0, 0, 400);
         chordCheck();      
     }
 

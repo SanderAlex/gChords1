@@ -28,6 +28,17 @@ var app = {
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
+        $.extend($.mobile.datebox.prototype.options, {
+            'customData': [
+                {'input': true, 'name':'Chord', 'data':chordsIndexes[0]},
+                {'input': true, 'name':'Add', 'data':chordsIndexes[1]}
+            ],
+            'overrideCustomSet': 'OK',
+            'useNewStyle': true,
+            'useFocus': true,
+            'resizeListener': false,
+            'popupForceY': true
+        });
     },
     // deviceready Event Handler
     //

@@ -141,9 +141,17 @@ h1 {
 }
 
 #allVariants {
-    left: 90%;
+    left: 95%;
 }
 
 #allVars {
     height: 100%;
+}
+
+#dateBox > div {
+    margin: 1px;
+}
+
+#cf {
+    text-align: center;
 }

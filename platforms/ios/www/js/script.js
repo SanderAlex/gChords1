@@ -1,8 +1,10 @@
 $(document).ready(function() {
 
+    /*
     $("#mainPage").bind('touchmove', function(e) {
         e.preventDefault();
     });
+    */
 
 	var canvas = document.getElementById('chordCanvas');
     var context = canvas.getContext('2d');
@@ -20,29 +22,36 @@ $(document).ready(function() {
     $(canvas).swiperight(prevVar);
     $(canvas).swipeleft(nextVar);
 
+    //$(canvas).tap(addNote);
+
     $("#prevButton").tap(prevVar);
     $("#nextButton").tap(nextVar);
     $("#allVariants").tap(varShow);
     $("#playButton").tap(playChord);
 
     resizeCanvas();
+
+    $("#chordCanvas").swipe({
+        swipe:function(event, direction, distance, duration, fingerCount) {
+            console("You swiped " + direction );
+        }
+    });
  
     function resizeCanvas() {
         $("#chordDiv").width(window.innerWidth);
-        $("#chordDiv").height(window.innerHeight * 0.75);
         canvas.width = $("#chordDiv").width();
-        
-        $("#select").width = window.innerWidth;
-        $("#select").height(window.innerHeight * 0.1);
-        $(".botBut").height(window.innerHeight * 0.05);
-        $("#mainButtons").css("left", window.innerWidth/2 - $("#mainButtons").width()/2);
-        unitX = canvas.width/7;
-        unitY = $("#chordDiv").height()/6;
-
-        canvas.height = unitY*12;
         bCanvas.width = $("#chordDiv").width();
+              
+        unitX = canvas.width/7;
+        unitY = window.innerHeight/7;
+        
+        $("#chordDiv").height(unitY*13);
         bCanvas.height = unitY;
-
+        canvas.height = $("#chordDiv").height();
+        bCanvas.width = $("#chordDiv").width();
+        
+        $("#headerMenu").height($("#topMenu").height() + bCanvas.height);
+        $("#chordDiv").trigger( "updatelayout" );  
         context.font = unitY*0.3 + "px Arial";
         context.textAlign = "center";
         bContext.font = unitY*0.3 + "px Arial";
@@ -50,9 +59,10 @@ $(document).ready(function() {
 
         for(i = 1; i <= 6; i++)
             drawCross(bContext, i);
+
         neck.onload = function() {
             drawNeck();
-        }      
+        }
     }
 
     function pickChord() {
@@ -78,10 +88,17 @@ $(document).ready(function() {
             $("#prevButton").addClass("ui-disabled");      
     }
 
+    function addNote() {
+        var tapX = Math.round(event.pageX/unitX);
+        var tapY = (Math.round(event.pageY/unitY)) - 1;
+        alert(event.pageY);
+    }
+
     function prevVar() {
         if(currentChordIndex != 0) {
             currentChordIndex--;
             setArray();
+            $(this).parent.removeClass("ui-btn-active");
         }
     }
 
@@ -89,6 +106,7 @@ $(document).ready(function() {
         if(currentChordIndex != chordVar.length - 1) {
             currentChordIndex++;
             setArray();
+            $(this).parent.removeClass("ui-btn-active");
         }
     }
 
@@ -115,6 +133,7 @@ $(document).ready(function() {
                 stringSounds[i].play();
             }
         }
+        $(this).parent.removeClass("ui-btn-active");
     }
 
     function setArray() {
@@ -122,7 +141,7 @@ $(document).ready(function() {
         chordGrid = currentChord;
         buildChord();
         drawFinger(chordGrid);
-        chordCheck();       
+        chordCheck();      
     }
 
     function drawNeck() {
@@ -205,20 +224,12 @@ $(document).ready(function() {
     function drawFingerMini(arr) {
         context.clearRect(0, 0, canvas.width, canvas.height);
         var tab = 0;
-        var min = 0;
         var note;
         var noteY;
-        var max = Math.max.apply(Math, arr);
         //проверяем позицию
-        if(max > 5) {
-            min = 50;
-            for(i = 0; i < arr.length; i++) {
-                if(arr[i] != null && arr[i] != 0 && arr[i] < min)
-                    min = arr[i];
-            }
-            tab = min - 1;
-        }
-        drawGuitar(min, max);
+        var minMaxArr = searchMin(arr);
+        console.log(minMaxArr);
+        drawGuitar(minMaxArr[0], minMaxArr[1]);
 
         for(i = 0; i < arr.length; i++) {
             //отрисовка позиций пальцев
@@ -235,12 +246,28 @@ $(document).ready(function() {
                 }
                 else {
                     context.beginPath();
-                    context.arc(unitX*i + unitX, (arr[i] - tab)*unitY + unitY - unitY/2, unitY/3, 0, Math.PI*2, false);
+                    context.arc(unitX*i + unitX, (arr[i] - minMaxArr[2])*unitY + unitY - unitY/2, unitY/3, 0, Math.PI*2, false);
                     context.fill();
                     context.fillStyle = "#fff"; 
                 }
             }    
         }
+    }
+
+    function searchMin(arr) {
+        var tab = 0;
+        var min = 0;
+        var max = Math.max.apply(Math, arr);
+        if(max > 5) {
+            min = 12;
+            for(i = 0; i < arr.length; i++) {
+                if(arr[i] != null && arr[i] != 0 && arr[i] < min)
+                    min = arr[i];
+            }
+            tab = min - 1;
+        }
+        var mm = [min, max, tab];
+        return mm;
     }
 
     function varShow() {
@@ -264,6 +291,6 @@ $(document).ready(function() {
         });
         context = canvas.getContext('2d');
         unitX = canvas.width/7;
-        unitY = $("#chordDiv").height()/6;
+        unitY = window.innerHeight/7;
     }
 });

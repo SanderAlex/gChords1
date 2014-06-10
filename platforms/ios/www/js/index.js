@@ -33,10 +33,10 @@ var app = {
                 {'input': true, 'name':'Chord', 'data':chordsIndexes[0]},
                 {'input': true, 'name':'Add', 'data':chordsIndexes[1]}
             ],
+            'openCallbackArgs': ["dsasa"],
             'overrideCustomSet': 'OK',
             'useNewStyle': true,
             'useFocus': true,
-            'resizeListener': false,
             'popupForceY': true
         });
     },

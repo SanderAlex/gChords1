@@ -123,6 +123,7 @@ h1 {
 }
 
 #chordDiv {
+    width: 100%;
     background-color: white;
 }
 
@@ -141,11 +142,15 @@ h1 {
 }
 
 #allVariants {
-    left: 95%;
+    left: 90%;
+}
+
+#wrapper {
+    width: 100%;
 }
 
 #allVars {
-    height: 100%;
+    width: 100%;
 }
 
 #dateBox > div {

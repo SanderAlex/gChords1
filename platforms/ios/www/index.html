@@ -34,7 +34,7 @@
                 <div id="dateBox">
                     <input name="cf" type="date" data-role="datebox" id="cf" data-options='{"mode": "customflip"}' value="Chord">
                 </div>
-                <a href="#variants" data-position="right" data-role="button" data-transition="pop" data-icon="grid" data-iconshadow="true" data-iconpos="notext" class="ui-disabled" id="allVariants"></a>
+                <a href="#variants" data-position="right" data-role="button" data-transition="slide" data-icon="grid" data-iconshadow="true" data-iconpos="notext" class="ui-disabled" id="allVariants"></a>
                 <canvas id="bridgeCanvas" height="0">
                 </canvas>
             </div>
@@ -56,8 +56,16 @@
         </div>
 
         <div data-role="page" data-theme="b" id="variants">
-            <a href="#mainPage" data-transition="pop" data-icon="arrow-l" data-role="button">BACK</a>
-            <div id="allVars"></div>
+            <div data-role="header" data-position="fixed" data-tap-toggle="false">
+                <div data-role="navbar" data-iconpos="left">
+                    <ul>
+                        <li><a href="#mainPage" data-transition="slide" data-direction="reverse" data-icon="arrow-l" data-role="button">BACK</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="wrapper">
+                <div id="allVars"></div>
+            </div>
         </div>
     </body>
 </html>
